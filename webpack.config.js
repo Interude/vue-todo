@@ -1,6 +1,6 @@
 
 const path = require('path')
-const isDev = process.env.NODE_ENV === 'production'
+const isDev = process.env.NODE_ENV === 'development'
 const webpack = require('webpack')
 //此处
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -19,13 +19,43 @@ module:{
             loader: 'vue-loader'
         },
         {
-            test: /\.css$/,
-            //loader:'css-loader'
-            use:[
+            test: /\.jsx$/,
+            loader: 'babel-loader'
+        },
+        {
+            test: /\.scss$/,
+            use: [{
+                loader: "style-loader" // creates style nodes from JS strings
+            }, {
+                loader: "css-loader" // translates CSS into CommonJS
+            }, {
+                loader: "sass-loader" // compiles Sass to CSS
+            }]
+        },
+        // {
+        //     test: /\.css$/,
+        //     //loader:'css-loader'
+        //     use:[
 
+        //         'style-loader',
+        //         'css-loader'
+        //     ]    
+        // },
+        {
+              test:/\.styl$/,
+              use:[
                 'style-loader',
-                'css-loader'
-            ]    
+                'css-loader',
+                {
+                    loader:'postcss-loader',
+                    options:{
+                        sourceMap:true,
+                    }
+                },
+                'stylus-loader'
+              ]
+                  
+              
         },
         {
             test:/\.(gif|jpg|jpeg|png|svg)$/,
