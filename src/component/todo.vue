@@ -22,7 +22,7 @@ export default {
     methods:{
         active(){
            if(!!this.data){
-                //alert(this.data)
+                alert(this.data)
            }
         }
     }
