@@ -8,22 +8,57 @@
        @keyup.enter="active"
        autofocus="autofocus"
        v-model="data">
+        <item :todo="todo"
+        v-for="todo in todos"
+        :key="todo.id"
+        @del="deleteTodo"
+        />
+       <tables 
+       :filter="filter" 
+       :todos="todos" 
+       @actives="activeItem"
+       ></tables>
    </section>
+
+   
 </template>
 
 
 <script>
+import tables from './tables.vue'
+import item from './item.vue'
+let id = 0;
 export default {
+    components:{
+        tables,
+        item
+    },
     data(){
     return{
-        data:''
+        data:'',
+       todos:[
+
+       ],
+        filter:'all'
     }
     },
     methods:{
+        activeItem(state){
+                this.filter = state
+        },
         active(){
            if(!!this.data){
-                alert(this.data)
-           }
+               // alert(this.data)
+            this.todos.unshift({
+                id:id++,
+                content:this.data,
+                completed:false
+            })
+            this.data = ''
+          }
+        },
+        deleteTodo(id){
+            this.todos.splice(this.todos.findIndex(todo =>todo.id == id),1)
         }
     }
 }
